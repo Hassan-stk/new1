@@ -1,5 +1,4 @@
 
-
 <?php 
 /**
  * Adds weather widget.
@@ -34,9 +33,19 @@ class weather_Widget extends WP_Widget {
 		if ( ! empty( $instance['title'] ) ) {
 			echo $args['before_title'] . apply_filters( 'widget_title', $instance['title'] ) . $args['after_title'];
 		}
+		
+		
+		
+		
+		
 
         // widget content output
-		echo '<a class="weatherwidget-io" href="https://forecast7.com/en/35d1333d43/cyprus/" data-label_1="CYPRUS" data-label_2="WEATHER" data-theme="original" >CYPRUS WEATHER</a>';
+		//inline
+		
+		
+		// TO CHECK WEATHER FORECAST OF ANY PLACE JUST CHANGE THE PLACE IDENTIFICATION CODE 
+		echo '<iframe src="https://www.meteoblue.com/en/weather/widget/daily/place_identification_9874?geoloc=fixed&days=4&tempunit=CELSIUS&windunit=KILOMETER_PER_HOUR&precipunit=MILLIMETER&coloured=coloured&pictoicon=0&pictoicon=1&maxtemperature=0&maxtemperature=1&mintemperature=0&mintemperature=1&windspeed=0&windspeed=1&windgust=0&winddirection=0&winddirection=1&uv=0&humidity=0&precipitation=0&precipitation=1&precipitationprobability=0&precipitationprobability=1&spot=0&pressure=0&layout=light"  frameborder="0" scrolling="NO" allowtransparency="true" sandbox="allow-same-origin allow-scripts allow-popups allow-popups-to-escape-sandbox" style="width: 216px; height: 420px"></iframe>
+			<div><a href="https://www.meteoblue.com/en/weather/week/place_identification?utm_source=weather_widget&utm_medium=linkus&utm_content=daily&utm_campaign=Weather%2BWidget" target="_blank" rel="noopener"></a></div>';
 		
 		
 		
@@ -57,6 +66,7 @@ class weather_Widget extends WP_Widget {
 	 */
 	public function form( $instance ) {
 		$title = ! empty( $instance['title'] ) ? $instance['title'] : esc_html__( 'weather update', 'weather_domain' );
+		$place = ! empty( $instance['place'] ) ? $instance['place'] : esc_html__( 'Cyprus', 'weather_domain' );
 		?>
 
 
@@ -79,6 +89,17 @@ class weather_Widget extends WP_Widget {
          value="<?php echo esc_attr( $title ); ?>">
 		</p>
 
+		   <!--PLACE-->
+
+		   <p>
+		<label for="<?php echo esc_attr( $this->get_field_id( 'place' ) ); ?>"><?php esc_attr_e( 'Place:', 'weather_domain' ); ?></label> 
+		<input 
+         class="widefat" 
+         id="<?php echo esc_attr( $this->get_field_id( 'place' ) ); ?>"
+         name="<?php echo esc_attr( $this->get_field_name( 'place' ) ); ?>" 
+         type="text"  
+         value="<?php echo esc_attr( $place ); ?>">
+		</p>
 
 
 		<?php 
@@ -96,8 +117,9 @@ class weather_Widget extends WP_Widget {
 	 */
 	public function update( $new_instance, $old_instance ) {
 		$instance = array();
-        
+
 		$instance['title'] = ( ! empty( $new_instance['title'] ) ) ? sanitize_text_field( $new_instance['title'] ) : '';
+		$instance['place'] = ( ! empty( $new_instance['place'] ) ) ? sanitize_text_field( $new_instance['place'] ) : '';
 
 		return $instance;
 	}
